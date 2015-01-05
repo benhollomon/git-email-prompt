@@ -4,7 +4,7 @@
 # to configure for current git repository
 
 # set your available emails
-emails=(private@example.com work@example.com phd@example.com)
+MAILS=(private@example.com work@example.com phd@example.com)
 
 # prompt for email
 echo
@@ -12,9 +12,9 @@ echo "Which email address should be configured for this repository?"
 echo
 echo "Press [Enter] to abort..."
 echo
-for ((i = 0; i < ${#emails[*]}; i++))
+for ((i = 0; i < ${#MAILS[*]}; i++))
 do
-  echo "$(tput bold)$(($i + 1))$(tput sgr 0): ${emails[$i]}"
+  echo "$(tput bold)$(($i + 1))$(tput sgr 0): ${MAILS[$i]}"
 done
 echo
 echo -n "email: "
@@ -30,15 +30,15 @@ then
 fi
 
 # error if entered number is less than 1 or greater than size of emails
-if [[ $email -lt "1" || $email -gt ${#emails[*]} ]]
+if [[ $email -lt "1" || $email -gt ${#MAILS[*]} ]]
 then
   echo "$(tput setaf 1)error$(tput sgr 0): Unknown email $(tput bold)$email$(tput sgr 0)"
   exit 1
 fi
 
 # set email
-echo "Set '${emails[$(($email - 1))]}' as email address for this repository."
-git config user.email ${emails[$(($email - 1))]}
+echo "Set '${MAILS[$(($email - 1))]}' as email address for this repository."
+git config user.email ${MAILS[$(($email - 1))]}
 
 exit 0
 
