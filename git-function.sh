@@ -6,16 +6,19 @@ function git() {
 
   /usr/local/bin/git $@
 
-  if [[ "$1" = "init" || "$1" = "clone" ]]
+  if [[ $? -eq 0 ]] # only show prompt if git command was successful
   then
-    if [[ -d "$lastArgument" ]]
+    if [[ "$1" = "init" || "$1" = "clone" ]]
     then
-      # it was the directory argument, cd it
-      cd $lastArgument
-    else
-      # no directory given, parse it from repository url
-      cd $(echo $lastArgument | awk -F/ '{ print $NF }' | rev | sed 's/tig.//' | rev)
+      if [[ -d "$lastArgument" ]]
+      then
+        # it was the directory argument, cd it
+        cd $lastArgument
+      else
+        # no directory given, parse it from repository url
+        cd $(echo $lastArgument | awk -F/ '{ print $NF }' | rev | sed 's/tig.//' | rev)
+      fi
+      _gitIdentity
     fi
-    _gitIdentity
   fi
 }
