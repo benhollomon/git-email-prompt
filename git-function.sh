@@ -18,7 +18,7 @@ function git() {
         # no directory given, parse it from repository url
         cd $(echo $lastArgument | awk -F/ '{ print $NF }' | rev | sed 's/tig.//' | rev)
       fi
-      _gitIdentity
+      git-email-prompt.sh
     fi
   fi
 }
