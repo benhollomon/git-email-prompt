@@ -20,5 +20,8 @@ function git() {
       fi
       git-email-prompt.sh
     fi
+  else
+    # return the exit code of the failed git command call
+    return $?
   fi
 }
