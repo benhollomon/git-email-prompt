@@ -3,6 +3,11 @@
 # bash prompt which asks for email address
 # to configure for current git repository
 
+# trim whitespace
+trimws() {
+     echo "$1" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+}
+
 # set working directory variable
 wd="$(dirname "$(readlink -f "$0")")"
 
@@ -39,9 +44,11 @@ then
      exit 1
 fi
 
-# set email
-echo "Set '${MAILS[$(($email - 1))]}' as email address for this repository."
-git config user.email ${MAILS[$(($email - 1))]}
+# set email and name
+echo "Set '${MAILS[$(($email - 1))]}' as identity for this repository."
+readarray -t -d '-' MAIL <<< "${MAILS[$(($email - 1))]}"
+git config user.name "$(trimws "${MAIL[1]}")"
+git config user.email $(trimws "${MAIL[0]}")
 
 exit 0
 
